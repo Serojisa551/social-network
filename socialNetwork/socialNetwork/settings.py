@@ -134,3 +134,5 @@ environ.Env.read_env()
 GMAIL_API_CREDENTIALS = env("GMAIL_API_CREDENTIALS")
 GMAIL_API_TOKEN = env("GMAIL_API_TOKEN")
 GMAIL_API_SCOPES = ["https://www.googleapis.com/auth/gmail.send"]
+
+
