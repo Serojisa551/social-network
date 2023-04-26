@@ -38,10 +38,29 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "logAndReg",
+    "logAndReg.apps.LogandregConfig",
+    # "logAndReg",
     "crispy_forms",
 
+
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google'
 ]
+
+AUTHENTICATION_BACKENDS = (
+    # used for default signin such as loggin into admin panel
+    'django.contrib.auth.backends.ModelBackend',
+
+    # used for social authentications
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+SITE_ID = 1
+
+LOGIN_REDIRECT_URL ="http://127.0.0.1:8000/" 
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
@@ -108,6 +127,17 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
@@ -134,5 +164,3 @@ environ.Env.read_env()
 GMAIL_API_CREDENTIALS = env("GMAIL_API_CREDENTIALS")
 GMAIL_API_TOKEN = env("GMAIL_API_TOKEN")
 GMAIL_API_SCOPES = ["https://www.googleapis.com/auth/gmail.send"]
-
-
