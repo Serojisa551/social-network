@@ -18,19 +18,25 @@ from email.mime.text import MIMEText
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from requests import HTTPError
+from django.contrib.auth.forms import UserCreationForm
+
 
 def register(request):
     if request.method == "POST":
-        form = NewUserForm(request.POST)
+        form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)
-            messages.success(request, "Registration successful.")
-            return redirect("logAndReg:home")
-        messages.error(
-            request, "Unsuccessful registration. Invalid information.")
-    form = NewUserForm()
-    return render(request=request, template_name="logAndReg/register.html", context={"register_form": form})
+            username = form.cleaned_data.get('username')
+            messages.success(request, f"New account created: {username}")
+            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+        else:
+            messages.error(request, "Account creation failed")
+
+        return redirect("logAndReg:homepage")
+
+    form = UserCreationForm()
+    return render(request, "logAndReg/register.html", {"form": form})
+
 
 
 def login_request(request):
@@ -77,7 +83,6 @@ def password_reset_request(request):
                     }
                     email = render_to_string(email_template_name, c)
                     try:
-                        print("send ")
                         send_mail(subject, email, 'Isahakyan2021@gmail.com',
                                   [user.email], fail_silently=False)
                     except BadHeaderError:
