@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "logAndReg.apps.LogandregConfig",
     "crispy_forms",
+    "drf_yasg",
 
 
     "django.contrib.sites",

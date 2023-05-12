@@ -19,6 +19,7 @@ from requests import HTTPError
 from django.contrib.auth.forms import UserCreationForm
 import base64
 
+
 def register(request):
     if request.method == "POST":
         form = NewUserForm(request.POST)
