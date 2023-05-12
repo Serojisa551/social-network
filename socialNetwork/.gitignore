@@ -8,4 +8,5 @@ templates/passwordReset
 logAndReg/admin.py
 logAndReg/models.py
 logAndReg/tests.py
-socialNetwork/__pycache__/__init__.cpython-311.pyc
+logAndReg/migrations
+utils/
