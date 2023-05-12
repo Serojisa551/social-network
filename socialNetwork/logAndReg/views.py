@@ -18,25 +18,33 @@ from googleapiclient.discovery import build
 from requests import HTTPError
 from django.contrib.auth.forms import UserCreationForm
 import base64
+from drf_yasg.utils import swagger_auto_schema
+from rest_framework.decorators import api_view
+from .serializers import * 
 
-
+@swagger_auto_schema(method='post', request_body=CreateUserSerializer)
+@api_view(['POST'])
 def register(request):
     if request.method == "POST":
-        form = NewUserForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            username = form.cleaned_data.get('username')
-            messages.success(request, f"New account created: {username}")
+        serializer = CreateUserSerializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.save()
             login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+            messages.success(request, f"New account created: {user.username}")
             return redirect("logAndReg:home")
         else:
             messages.error(request, "Account creation failed")
+    else:
+        serializer = CreateUserSerializer()
 
-    form = NewUserForm()
-    return render(request, "logAndReg/register.html", {"form": form})
+    return render(request, "logAndReg/register.html", {"serializer": serializer})
 
-
-
+#TODO Works incorrectly
+@swagger_auto_schema(
+    method='post', 
+    request_body=UserLoginSerializer, 
+)
+@api_view(['POST'])
 def login_request(request):
     if request.method == "POST":
         form = AuthenticationForm(request, data=request.POST)
@@ -48,12 +56,28 @@ def login_request(request):
                 login(request, user)
                 messages.info(request, f"You are now logged in as {username}.")
                 return redirect("logAndReg:home")
-            else:
                 messages.error(request, "Invalid username or password.")
         else:
             messages.error(request, "Invalid username or password.")
     form = AuthenticationForm()
     return render(request=request, template_name="logAndReg/login.html", context={"login_form": form})
+
+
+# @swagger_auto_schema(method='post', request_body=UserLoginSerializer)
+# @api_view(['POST'])
+# def login_request(request):
+#     form = AuthenticationForm(request, data=request.POST)
+#     if form.is_valid():
+#         username = form.cleaned_data.get('username')
+#         password = form.cleaned_data.get('password')
+#         user = User.objects.filter(username=username).first()
+#         if user and user.check_password(password):
+#             login(request, user)
+#             messages.info(request, f"You are now logged in as {username}.")
+#             return redirect("logAndReg:home")
+#     messages.error(request, "Invalid username or password.")
+#     form = AuthenticationForm()
+#     return render(request=request, template_name="logAndReg/login.html", context={"login_form": form})
 
 
 def home(request):
