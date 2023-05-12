@@ -47,7 +47,7 @@ AUTHENTICATION_BACKENDS = (
 
 SITE_ID = 1
 
-LOGIN_REDIRECT_URL ="http://127.0.0.1:8000/" 
+LOGIN_REDIRECT_URL ="" 
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"

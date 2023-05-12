@@ -4,7 +4,8 @@ socialNetwork/__pycache__/
 logAndReg/__pycache__/
 credentials.json
 .env
-templates/passwordReset/
+templates/passwordReset
 logAndReg/admin.py
 logAndReg/models.py
 logAndReg/tests.py
+socialNetwork/__pycache__/__init__.cpython-311.pyc
