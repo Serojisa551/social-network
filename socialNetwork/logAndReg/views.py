@@ -22,22 +22,58 @@ from drf_yasg.utils import swagger_auto_schema
 from rest_framework.decorators import api_view
 from .serializers import * 
 
-@swagger_auto_schema(method='post', request_body=CreateUserSerializer)
-@api_view(['POST'])
-def register(request):
-    if request.method == "POST":
-        serializer = CreateUserSerializer(data=request.data)
-        if serializer.is_valid():
-            user = serializer.save()
-            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-            messages.success(request, f"New account created: {user.username}")
-            return redirect("logAndReg:home")
-        else:
-            messages.error(request, "Account creation failed")
-    else:
-        serializer = CreateUserSerializer()
+# def register(request):
+#     if request.method == "POST":
+#         form = NewUserForm(request.POST)
+#         if form.is_valid():
+#             user = form.save()
+#             username = form.cleaned_data.get('username')
+#             messages.success(request, f"New account created: {username}")
+#             login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+#             return redirect("logAndReg:home")
+#         else:
+#             messages.error(request, "Account creation failed")
 
-    return render(request, "logAndReg/register.html", {"serializer": serializer})
+#     form = NewUserForm()
+#     return render(request, "logAndReg/register.html", {"form": form})
+
+
+# @swagger_auto_schema(method='post', request_body=CreateUserSerializer)
+# @api_view(['POST'])
+def register(request):
+    print("hhi")
+    if request.method == "POST":
+        print("POST")
+        if len(request.POST) != 0:
+            print("request.POST")
+            form = NewUserForm(request.POST)
+            if form.is_valid():
+                print("form.is_valid")
+                user = form.save()
+                username = form.cleaned_data.get('username')
+                messages.success(request, f"New account created: {username}")
+                login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+                return redirect("logAndReg:home")
+            else:
+                print("messages.error(request, Account creation failed)")
+                messages.error(request, "Account creation failed")
+                form = NewUserForm()
+                return render(request, "logAndReg/register.html", {"form": form})
+        else:
+            print("data")
+            serializer = CreateUserSerializer(data=request.data)
+            if serializer.is_valid():
+                user = serializer.save()
+                login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+                messages.success(request, f"New account created: {user.username}")
+                return redirect("logAndReg:home")
+            else:
+                print("else")
+                messages.error(request, "Account creation failed")
+                serializer = CreateUserSerializer()
+                return render(request,  { "registration is completed good"})
+    return render(request, "logAndReg/register.html")
+    
 
 #TODO Works incorrectly
 @swagger_auto_schema(
