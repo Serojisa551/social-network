@@ -21,46 +21,27 @@ import base64
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.decorators import api_view
 from .serializers import * 
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework_simplejwt.tokens import RefreshToken
 
-# def register(request):
-#     if request.method == "POST":
-#         form = NewUserForm(request.POST)
-#         if form.is_valid():
-#             user = form.save()
-#             username = form.cleaned_data.get('username')
-#             messages.success(request, f"New account created: {username}")
-#             login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-#             return redirect("logAndReg:home")
-#         else:
-#             messages.error(request, "Account creation failed")
-
-#     form = NewUserForm()
-#     return render(request, "logAndReg/register.html", {"form": form})
-
-
-# @swagger_auto_schema(method='post', request_body=CreateUserSerializer)
-# @api_view(['POST'])
+@swagger_auto_schema(method='post', request_body=CreateUserSerializer)
+@api_view(['POST'])
 def register(request):
-    print("hhi")
     if request.method == "POST":
-        print("POST")
         if len(request.POST) != 0:
-            print("request.POST")
             form = NewUserForm(request.POST)
             if form.is_valid():
-                print("form.is_valid")
                 user = form.save()
                 username = form.cleaned_data.get('username')
                 messages.success(request, f"New account created: {username}")
                 login(request, user, backend='django.contrib.auth.backends.ModelBackend')
                 return redirect("logAndReg:home")
             else:
-                print("messages.error(request, Account creation failed)")
                 messages.error(request, "Account creation failed")
                 form = NewUserForm()
                 return render(request, "logAndReg/register.html", {"form": form})
         else:
-            print("data")
             serializer = CreateUserSerializer(data=request.data)
             if serializer.is_valid():
                 user = serializer.save()
@@ -68,52 +49,23 @@ def register(request):
                 messages.success(request, f"New account created: {user.username}")
                 return redirect("logAndReg:home")
             else:
-                print("else")
                 messages.error(request, "Account creation failed")
                 serializer = CreateUserSerializer()
                 return render(request,  { "registration is completed good"})
     return render(request, "logAndReg/register.html")
-    
 
-#TODO Works incorrectly
-@swagger_auto_schema(
-    method='post', 
-    request_body=UserLoginSerializer, 
-)
+
+@swagger_auto_schema(method='post', request_body=LoginSerializer)
 @api_view(['POST'])
-def login_request(request):
-    if request.method == "POST":
-        form = AuthenticationForm(request, data=request.POST)
-        if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                login(request, user)
-                messages.info(request, f"You are now logged in as {username}.")
-                return redirect("logAndReg:home")
-                messages.error(request, "Invalid username or password.")
-        else:
-            messages.error(request, "Invalid username or password.")
-    form = AuthenticationForm()
-    return render(request=request, template_name="logAndReg/login.html", context={"login_form": form})
+def login(request):
+    serializer = LoginSerializer(data=request.data)
+    if serializer.is_valid():
+        user = serializer.validated_data['user']
+        refresh = RefreshToken.for_user(user)
+        messages.info(request, f"You are now logged in as {user.username}.")
+        return Response({'refresh': str(refresh), 'access': str(refresh.access_token)})
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
-# @swagger_auto_schema(method='post', request_body=UserLoginSerializer)
-# @api_view(['POST'])
-# def login_request(request):
-#     form = AuthenticationForm(request, data=request.POST)
-#     if form.is_valid():
-#         username = form.cleaned_data.get('username')
-#         password = form.cleaned_data.get('password')
-#         user = User.objects.filter(username=username).first()
-#         if user and user.check_password(password):
-#             login(request, user)
-#             messages.info(request, f"You are now logged in as {username}.")
-#             return redirect("logAndReg:home")
-#     messages.error(request, "Invalid username or password.")
-#     form = AuthenticationForm()
-#     return render(request=request, template_name="logAndReg/login.html", context={"login_form": form})
 
 
 def home(request):
