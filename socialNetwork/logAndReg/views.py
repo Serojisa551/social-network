@@ -25,45 +25,29 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
 
-@swagger_auto_schema(method='post', request_body=CreateUserSerializer)
+
+# Working only with Swagger
+@swagger_auto_schema(method='post', request_body=RegisterSerializer)
 @api_view(['POST'])
-def register(request):
-    if request.method == "POST":
-        if len(request.POST) != 0:
-            form = NewUserForm(request.POST)
-            if form.is_valid():
-                user = form.save()
-                username = form.cleaned_data.get('username')
-                messages.success(request, f"New account created: {username}")
-                login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-                return redirect("logAndReg:home")
-            else:
-                messages.error(request, "Account creation failed")
-                form = NewUserForm()
-                return render(request, "logAndReg/register.html", {"form": form})
-        else:
-            serializer = CreateUserSerializer(data=request.data)
-            if serializer.is_valid():
-                user = serializer.save()
-                login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-                messages.success(request, f"New account created: {user.username}")
-                return redirect("logAndReg:home")
-            else:
-                messages.error(request, "Account creation failed")
-                serializer = CreateUserSerializer()
-                return render(request,  { "registration is completed good"})
-    return render(request, "logAndReg/register.html")
+def registration(request):
+    serializer = RegisterSerializer(data=request.data)
+    if serializer.is_valid():
+        user = serializer.save()
+        messages.success(request, f"New account created: {user.username}")
+        return Response({"message": "User successfully registered"})
+    return Response(serializer.errors, status=400)
 
 
-@swagger_auto_schema(method='post', request_body=LoginSerializer)
+# Working only with Swagger
+@swagger_auto_schema(method='post', request_body=AuthorisationSerializer)
 @api_view(['POST'])
-def login(request):
-    serializer = LoginSerializer(data=request.data)
+def authorisation(request):
+    serializer = AuthorisationSerializer(data=request.data)
     if serializer.is_valid():
         user = serializer.validated_data['user']
         refresh = RefreshToken.for_user(user)
         messages.info(request, f"You are now logged in as {user.username}.")
-        return Response({'refresh': str(refresh), 'access': str(refresh.access_token)})
+        return Response({"message": "You have successfully authenticated"})
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -111,9 +95,9 @@ def home(request):
 
 #                     # try:
 #                     #     message = (service.users().messages().send(userId="me", body=create_message).execute())
-#                     #     print(F'sent message to {message} Message Id: {message["id"]}')
+#                     #     (F'sent message to {message} Message Id: {message["id"]}')
 #                     # except HTTPError as error:
-#                     #     print(F'An error occurred: {error}')
+#                     #     (F'An error occurred: {error}')
 #                     #     message = None
 #                     # return redirect("/password_reset/done/")
 #     password_reset_form = PasswordResetForm()

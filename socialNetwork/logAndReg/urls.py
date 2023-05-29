@@ -6,7 +6,7 @@ app_name = "logAndReg"
 
 urlpatterns = [
     path("", views.home, name="home"),
-    path("register", views.register, name="register"),
-    path("login", views.login, name="login"),
+    path("registration", views.registration, name="registration"),
+    path("authorisation", views.authorisation, name="authorisation"),
     # path("password_reset/", views.password_reset_request, name="password_reset"),
 ]
