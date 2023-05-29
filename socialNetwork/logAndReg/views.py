@@ -26,34 +26,16 @@ from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
 
 
-
-@swagger_auto_schema(method='post', request_body=CreateUserSerializer)
+# Working only with Swagger
+@swagger_auto_schema(method='post', request_body=RegisterSerializer)
 @api_view(['POST'])
-def register(request):
-    if request.method == "POST":
-        if len(request.POST) != 0:
-            form = NewUserForm(request.POST)
-            if form.is_valid():
-                user = form.save()
-                username = form.cleaned_data.get('username')
-                messages.success(request, f"New account created: {username}")
-                login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-                return redirect("logAndReg:home")
-            else:
-                messages.error(request, "Account creation failed")
-                form = NewUserForm()
-                return render(request, "logAndReg/register.html", {"form": form})
-        else:
-            serializer = CreateUserSerializer(data=request.data)
-            if serializer.is_valid():
-                user = serializer.save()
-                messages.success(request, f"New account created: {user.username}")
-                return redirect("logAndReg:home")
-            else:
-                messages.error(request, "Account creation failed")
-                serializer = CreateUserSerializer()
-                return render(request,  { "registration is completed good"})
-    return render(request, "logAndReg/register.html")
+def registration(request):
+    serializer = RegisterSerializer(data=request.data)
+    if serializer.is_valid():
+        user = serializer.save()
+        messages.success(request, f"New account created: {user.username}")
+        return Response({"message": "User successfully registered"})
+    return Response(serializer.errors, status=400)
 
 
 # Working only with Swagger
