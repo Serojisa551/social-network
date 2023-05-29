@@ -14,7 +14,7 @@ SECRET_KEY = "django-insecure-vnoh_k7z4%xutnzu#mdjv23843d#dq$h-tc++y&!f^vdw1u%24
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -29,7 +29,6 @@ INSTALLED_APPS = [
     "logAndReg.apps.LogandregConfig",
     "crispy_forms",
     "drf_yasg",
-
 
     "django.contrib.sites",
     "allauth",

@@ -25,6 +25,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
 
+
+
 @swagger_auto_schema(method='post', request_body=CreateUserSerializer)
 @api_view(['POST'])
 def register(request):
@@ -45,7 +47,6 @@ def register(request):
             serializer = CreateUserSerializer(data=request.data)
             if serializer.is_valid():
                 user = serializer.save()
-                login(request, user, backend='django.contrib.auth.backends.ModelBackend')
                 messages.success(request, f"New account created: {user.username}")
                 return redirect("logAndReg:home")
             else:
@@ -55,6 +56,7 @@ def register(request):
     return render(request, "logAndReg/register.html")
 
 
+# Working only with Swagger
 @swagger_auto_schema(method='post', request_body=LoginSerializer)
 @api_view(['POST'])
 def login(request):
@@ -111,9 +113,9 @@ def home(request):
 
 #                     # try:
 #                     #     message = (service.users().messages().send(userId="me", body=create_message).execute())
-#                     #     print(F'sent message to {message} Message Id: {message["id"]}')
+#                     #     (F'sent message to {message} Message Id: {message["id"]}')
 #                     # except HTTPError as error:
-#                     #     print(F'An error occurred: {error}')
+#                     #     (F'An error occurred: {error}')
 #                     #     message = None
 #                     # return redirect("/password_reset/done/")
 #     password_reset_form = PasswordResetForm()
