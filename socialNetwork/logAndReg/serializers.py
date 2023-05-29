@@ -4,7 +4,7 @@ from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from django.contrib.auth import authenticate
 
-class LoginSerializer(serializers.Serializer):
+class AuthorisationSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField()
 

@@ -39,15 +39,15 @@ def registration(request):
 
 
 # Working only with Swagger
-@swagger_auto_schema(method='post', request_body=LoginSerializer)
+@swagger_auto_schema(method='post', request_body=AuthorisationSerializer)
 @api_view(['POST'])
-def login(request):
-    serializer = LoginSerializer(data=request.data)
+def authorisation(request):
+    serializer = AuthorisationSerializer(data=request.data)
     if serializer.is_valid():
         user = serializer.validated_data['user']
         refresh = RefreshToken.for_user(user)
         messages.info(request, f"You are now logged in as {user.username}.")
-        return Response({'refresh': str(refresh), 'access': str(refresh.access_token)})
+        return Response({"message": "You have successfully authenticated"})
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
