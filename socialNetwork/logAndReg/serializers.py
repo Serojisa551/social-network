@@ -21,8 +21,6 @@ class AuthorisationSerializer(serializers.Serializer):
         
         data['user'] = user
         return data
-from django.contrib.auth.models import User
-from rest_framework import serializers
 
 
 

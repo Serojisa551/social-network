@@ -5,6 +5,7 @@ from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from django.urls import re_path
+from django.urls import path
 
 
 schema_view = get_schema_view(
@@ -37,4 +38,8 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("logAndReg.urls")),
     path('accounts/', include('allauth.urls')),
+    # path('users/', ChatUserListCreateView.as_view(), name='chat-users'),
+    path("", include('chat.urls')),
+
+
 ]

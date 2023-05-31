@@ -8,5 +8,10 @@ logAndReg/admin.py
 logAndReg/models.py
 logAndReg/tests.py
 logAndReg/migrations
+chat/admin.py
+chat/models.py
+chat/tests.py
+chat/__pycache__
+chat/migrations
 utils/
 .env

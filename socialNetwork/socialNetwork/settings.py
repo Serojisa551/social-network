@@ -30,12 +30,19 @@ INSTALLED_APPS = [
     "crispy_forms",
     "drf_yasg",
 
+    "chat",
     "django.contrib.sites",
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
     "allauth.socialaccount.providers.google",
 ]
+
+SWAGGER_SETTINGS = {
+    'DEFAULT_INFO': 'chat_app.urls.openapi_info',
+    'SECURITY_DEFINITIONS': {},
+    'VALIDATOR_URL': None,
+}
 
 AUTHENTICATION_BACKENDS = (
     # used for default signin such as loggin into admin panel
