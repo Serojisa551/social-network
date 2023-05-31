@@ -9,8 +9,8 @@ from rest_framework import serializers
 #         fields = '__all__' 
 
 class MessageSerializer(serializers.ModelSerializer):
-    sender_name = serializers.CharField(source='sender.name', read_only=True)
-    recipient_name = serializers.CharField(source='recipient.name', read_only=True)
+    sender_name = serializers.CharField(source='sender.name', read_only=False)
+    recipient_name = serializers.CharField(source='recipient.name', read_only=False)
 
     class Meta:
         model = Message
