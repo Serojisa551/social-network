@@ -1,33 +1,29 @@
 from rest_framework import serializers
-from .models import  Message#ChatUser,
+from .models import  Message
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
-# class ChatUserSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = ChatUser
-#         fields = '__all__' 
 
 class MessageSerializer(serializers.ModelSerializer):
-    sender_name = serializers.CharField(source='sender.name', read_only=False)
-    recipient_name = serializers.CharField(source='recipient.name', read_only=False)
+    sender_name = serializers.CharField(source="sender.username")
+    recipient_name = serializers.CharField(source="recipient.username")
 
     class Meta:
         model = Message
-        fields = ['sender_name', 'recipient_name', 'content']
+        fields = ["sender_name","recipient_name",  "content"]
 
     def create(self, validated_data):
-        sender_data = validated_data.pop('sender', None)
+        sender_data = validated_data.pop("sender", None)
         if not sender_data:
-            raise serializers.ValidationError("Sender field is required.")
+            raise serializers.ValidationError("Sender field is required. I too.")
 
-        sender_name = sender_data.get('name')
+        sender_name = sender_data.get("username")
         if not sender_name:
-            raise serializers.ValidationError("Sender name is required.")
+            raise serializers.ValidationError("Sender username is required.")
 
-        recipient_name = validated_data.pop('recipient')['name']
-        sender = User.objects.get(name=sender_name)
-        recipient = User.objects.get(name=recipient_name)
+        recipient_name = validated_data.pop("recipient")["username"]
+        sender = User.objects.get(username=sender_name)
+        recipient = User.objects.get(username=recipient_name)
         message = Message.objects.create(sender=sender, recipient=recipient, **validated_data)
         return message
 
