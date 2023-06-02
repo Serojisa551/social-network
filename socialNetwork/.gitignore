@@ -5,11 +5,11 @@ logAndReg/__pycache__
 credentials.json
 templates/passwordReset
 logAndReg/admin.py
-logAndReg/models.py
+models.py
 logAndReg/tests.py
 logAndReg/migrations
 chat/admin.py
-chat/models.py
+models.py
 chat/tests.py
 chat/__pycache__
 chat/migrations

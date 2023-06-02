@@ -24,16 +24,24 @@ class AuthorisationSerializer(serializers.Serializer):
 
 
 
-class RegisterSerializer(serializers.Serializer):
+class AuthenticationTypeSerializer(serializers.Serializer):
     AUTH_TYPES = (
         ('google', 'Google'),
         ('apple', 'Apple'),
+        ('web', 'Web')
     )
-    auth_type = serializers.ChoiceField(choices=AUTH_TYPES, label='Authentication Type')
+
+
+class RegisterSerializer(serializers.Serializer):
+    auth_type = serializers.ChoiceField(choices=AuthenticationTypeSerializer.AUTH_TYPES, label='Authentication Type')
     username = serializers.CharField(max_length=150, label='Username')
     email = serializers.EmailField(label='Email')
     password = serializers.CharField(max_length=128, label='Password', write_only=True)
     repeat_password = serializers.CharField(max_length=128, label='Repeat Password', write_only=True)
+    profile_picture = serializers.ImageField(allow_empty_file=False, read_only=True)
+    date_of_birth = serializers.DateField(read_only=True)
+    place_of_birth = serializers.CharField(read_only=True)
+
 
     def validate(self, attrs):
         password = attrs.get('password')
