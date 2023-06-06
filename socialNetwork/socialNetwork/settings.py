@@ -1,5 +1,6 @@
 from pathlib import Path
 import environ
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -160,3 +161,5 @@ environ.Env.read_env()
 # GMAIL_API_CREDENTIALS = env("GMAIL_API_CREDENTIALS")
 # GMAIL_API_TOKEN = env("GMAIL_API_TOKEN")
 # GMAIL_API_SCOPES = ["https://www.googleapis.com/auth/gmail.send"]
+STATIC_ROOT = os.path.join (BASE_DIR, 'socialNetwork/static')
+# MEDIA_URL = '/static/'

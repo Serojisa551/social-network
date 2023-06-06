@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+from .models import User
 from rest_framework import serializers
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
@@ -34,14 +34,13 @@ class AuthenticationTypeSerializer(serializers.Serializer):
 
 class RegisterSerializer(serializers.Serializer):
     auth_type = serializers.ChoiceField(choices=AuthenticationTypeSerializer.AUTH_TYPES, label='Authentication Type')
-    username = serializers.CharField(max_length=150, label='Username')
-    email = serializers.EmailField(label='Email')
-    password = serializers.CharField(max_length=128, label='Password', write_only=True)
-    repeat_password = serializers.CharField(max_length=128, label='Repeat Password', write_only=True)
-    profile_picture = serializers.ImageField(allow_empty_file=False, read_only=True)
-    date_of_birth = serializers.DateField(read_only=True)
-    place_of_birth = serializers.CharField(read_only=True)
-
+    username = serializers.CharField()
+    email = serializers.EmailField()
+    password = serializers.CharField(write_only=True)
+    repeat_password = serializers.CharField(write_only=True)
+    profile_picture = serializers.ImageField(required=False)
+    date_of_birth = serializers.DateField(required=False)
+    place_of_birth = serializers.CharField(required=False)
 
     def validate(self, attrs):
         password = attrs.get('password')
@@ -58,7 +57,16 @@ class RegisterSerializer(serializers.Serializer):
         email = validated_data.get('email')
         password = validated_data.get('password')
 
-        user = User.objects.create_user(username=username, email=email, password=password)
+        if auth_type == "web":
+            # profile_picture = validated_data.get('profile_picture')
+            date_of_birth = validated_data.get('date_of_birth')
+            place_of_birth  = validated_data.get('place_of_birth')
+            print("password", validated_data)
+            user = User.objects.create_user(username=username, email=email, date_of_birth=date_of_birth, place_of_birth=place_of_birth)#,profile_picture=profile_picture**validated_data
+            print("after")
+        else:
+            print(auth_type)
+            user = User.objects.create_user(username=username, email=email, password=password)
 
         return user
 

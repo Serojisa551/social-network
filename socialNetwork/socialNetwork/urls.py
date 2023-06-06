@@ -38,8 +38,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("logAndReg.urls")),
     path('accounts/', include('allauth.urls')),
-    # path('users/', ChatUserListCreateView.as_view(), name='chat-users'),
     path("", include('chat.urls')),
-
-
 ]
+
