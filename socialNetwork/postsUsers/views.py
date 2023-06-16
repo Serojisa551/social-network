@@ -5,14 +5,10 @@ from drf_yasg.utils import swagger_auto_schema
 from .models import *
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from rest_framework import generics
 
 
-@swagger_auto_schema(method='post', request_body=PostSerializer)
-@api_view(['POST'])
-def postsUsers(request):
-    serializer = PostSerializer(data=request.data)
-    if serializer.is_valid():
-        # print("serializer.validated_data", serializer.validated_data)
-        serializer.create(serializer.validated_data)
-        return Response(serializer.data, status=201)
-    return Response(serializer.errors, status=400)
+
+class PostCreateView(generics.CreateAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
