@@ -58,7 +58,6 @@ class RegisterSerializer(serializers.Serializer):
         password = validated_data.get('password')
         
 
-        # Here are the `User` and `userInfo` tables linked to `username` but should be linked to `pk` in the future, this is fixable
         if auth_type == "web":
             # profile_picture = validated_data.get('profile_picture')
             date_of_birth = validated_data.get('date_of_birth')
