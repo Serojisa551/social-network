@@ -16,10 +16,10 @@ chat/migrations
 utils/
 .env
 photosUsers/
-photosPosts/
+photoPosts/
 videoPosts/
-photosUsers/migrations
-photosUsers/admin.py
-photosUsers/__pycache__
+postsUsers/migrations/
+postsUsers/admin.py
+postsUsers/__pycache__/
 photosUsers/tests.py
 socialNetwork/static
