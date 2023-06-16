@@ -1,9 +1,9 @@
-from .models import User
+from .models import UserInfo
 from rest_framework import serializers
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from django.contrib.auth import authenticate
-
+from django.contrib.auth.models import User
 class AuthorisationSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField()
@@ -56,16 +56,15 @@ class RegisterSerializer(serializers.Serializer):
         username = validated_data.get('username')
         email = validated_data.get('email')
         password = validated_data.get('password')
+        
 
+        # Here are the `User` and `userInfo` tables linked to `username` but should be linked to `pk` in the future, this is fixable
         if auth_type == "web":
             # profile_picture = validated_data.get('profile_picture')
             date_of_birth = validated_data.get('date_of_birth')
             place_of_birth  = validated_data.get('place_of_birth')
-            print("password", validated_data)
-            user = User.objects.create_user(username=username, email=email, date_of_birth=date_of_birth, place_of_birth=place_of_birth)#,profile_picture=profile_picture**validated_data
-            print("after")
+            user = UserInfo.objects.create_user(username=username, date_of_birth=date_of_birth, place_of_birth=place_of_birth)
         else:
-            print(auth_type)
             user = User.objects.create_user(username=username, email=email, password=password)
 
         return user

@@ -10,7 +10,7 @@ class MessageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Message
-        fields = ["sender_name","recipient_name",  "content"]
+        fields = ["sender_name","recipient_name", "content"]
 
     def create(self, validated_data):
         sender_data = validated_data.pop("sender", None)

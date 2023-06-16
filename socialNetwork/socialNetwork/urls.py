@@ -39,5 +39,6 @@ urlpatterns = [
     path("", include("logAndReg.urls")),
     path('accounts/', include('allauth.urls')),
     path("", include('chat.urls')),
+    path("", include("postsUsers.urls")),
 ]
 

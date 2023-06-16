@@ -27,12 +27,18 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+
     "logAndReg.apps.LogandregConfig",
+
     "crispy_forms",
     "drf_yasg",
 
-    "chat",
+    "postsUsers.apps.PostsusersConfig",
+
+    "chat.apps.ChatConfig",
+
     "django.contrib.sites",
+
     "allauth",
     "allauth.account",
     "allauth.socialaccount",

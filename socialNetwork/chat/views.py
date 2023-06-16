@@ -18,4 +18,4 @@ def create_message(request):
         message = serializer.create(serializer.validated_data)
         # Additional logic for handling the created message
         return Response({"message": "Message created successfully"})
-    return Response(serializer.errors, status=400)
+    return Response(serializer.errors, status=401)

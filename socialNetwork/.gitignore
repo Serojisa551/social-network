@@ -15,5 +15,11 @@ chat/__pycache__
 chat/migrations
 utils/
 .env
-photos/
-socialNetwork/static/
+photosUsers/
+photosPosts/
+videoPosts/
+photosUsers/migrations
+photosUsers/admin.py
+photosUsers/__pycache__
+photosUsers/tests.py
+socialNetwork/static
