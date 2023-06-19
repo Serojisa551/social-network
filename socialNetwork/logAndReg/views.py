@@ -18,41 +18,38 @@ from googleapiclient.discovery import build
 from requests import HTTPError
 from django.contrib.auth.forms import UserCreationForm
 import base64
-
-def register(request):
-    if request.method == "POST":
-        form = NewUserForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            username = form.cleaned_data.get('username')
-            messages.success(request, f"New account created: {username}")
-            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-            return redirect("logAndReg:home")
-        else:
-            messages.error(request, "Account creation failed")
-
-    form = NewUserForm()
-    return render(request, "logAndReg/register.html", {"form": form})
+from drf_yasg.utils import swagger_auto_schema
+from rest_framework.decorators import api_view
+from .serializers import * 
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework_simplejwt.tokens import RefreshToken
 
 
+# Working only with Swagger
+@swagger_auto_schema(method='post', request_body=RegisterSerializer)
+@api_view(['POST'])
+def registration(request):
+    serializer = RegisterSerializer(data=request.data)
+    if serializer.is_valid():
+        user = serializer.save()
+        messages.success(request, f"New account created: {user.username}")
+        return Response({"message": "User successfully registered"})
+    return Response(serializer.errors, status=400)
 
-def login_request(request):
-    if request.method == "POST":
-        form = AuthenticationForm(request, data=request.POST)
-        if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                login(request, user)
-                messages.info(request, f"You are now logged in as {username}.")
-                return redirect("logAndReg:home")
-            else:
-                messages.error(request, "Invalid username or password.")
-        else:
-            messages.error(request, "Invalid username or password.")
-    form = AuthenticationForm()
-    return render(request=request, template_name="logAndReg/login.html", context={"login_form": form})
+
+# Working only with Swagger
+@swagger_auto_schema(method='post', request_body=AuthorisationSerializer)
+@api_view(['POST'])
+def authorisation(request):
+    serializer = AuthorisationSerializer(data=request.data)
+    if serializer.is_valid():
+        user = serializer.validated_data['user']
+        refresh = RefreshToken.for_user(user)
+        messages.info(request, f"You are now logged in as {user.username}.")
+        return Response({"message": "You have successfully authenticated"})
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 def home(request):
@@ -98,9 +95,9 @@ def home(request):
 
 #                     # try:
 #                     #     message = (service.users().messages().send(userId="me", body=create_message).execute())
-#                     #     print(F'sent message to {message} Message Id: {message["id"]}')
+#                     #     (F'sent message to {message} Message Id: {message["id"]}')
 #                     # except HTTPError as error:
-#                     #     print(F'An error occurred: {error}')
+#                     #     (F'An error occurred: {error}')
 #                     #     message = None
 #                     # return redirect("/password_reset/done/")
 #     password_reset_form = PasswordResetForm()

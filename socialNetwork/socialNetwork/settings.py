@@ -1,5 +1,6 @@
 from pathlib import Path
 import environ
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -14,7 +15,7 @@ SECRET_KEY = "django-insecure-vnoh_k7z4%xutnzu#mdjv23843d#dq$h-tc++y&!f^vdw1u%24
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -26,16 +27,29 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "logAndReg.apps.LogandregConfig",
-    "crispy_forms",
 
+    "logAndReg.apps.LogandregConfig",
+
+    "crispy_forms",
+    "drf_yasg",
+
+    "postsUsers.apps.PostsusersConfig",
+
+    "chat.apps.ChatConfig",
 
     "django.contrib.sites",
+
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
     "allauth.socialaccount.providers.google",
 ]
+
+SWAGGER_SETTINGS = {
+    'DEFAULT_INFO': 'chat_app.urls.openapi_info',
+    'SECURITY_DEFINITIONS': {},
+    'VALIDATOR_URL': None,
+}
 
 AUTHENTICATION_BACKENDS = (
     # used for default signin such as loggin into admin panel
@@ -137,6 +151,8 @@ USE_I18N = True
 
 USE_TZ = True
 
+APPEND_SLASH = False
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
@@ -151,3 +167,5 @@ environ.Env.read_env()
 # GMAIL_API_CREDENTIALS = env("GMAIL_API_CREDENTIALS")
 # GMAIL_API_TOKEN = env("GMAIL_API_TOKEN")
 # GMAIL_API_SCOPES = ["https://www.googleapis.com/auth/gmail.send"]
+STATIC_ROOT = os.path.join (BASE_DIR, 'socialNetwork/static')
+# MEDIA_URL = '/static/'
