@@ -62,7 +62,9 @@ class RegisterSerializer(serializers.Serializer):
             # profile_picture = validated_data.get('profile_picture')
             date_of_birth = validated_data.get('date_of_birth')
             place_of_birth  = validated_data.get('place_of_birth')
-            user = UserInfo.objects.create_user(username=username, date_of_birth=date_of_birth, place_of_birth=place_of_birth)
+            userInfo = UserInfo.objects.create_user(username=username, date_of_birth=date_of_birth, place_of_birth=place_of_birth)
+            user = User.objects.create_user(username=username, email=email, password=password)
+            return user, userInfo
         else:
             user = User.objects.create_user(username=username, email=email, password=password)
 

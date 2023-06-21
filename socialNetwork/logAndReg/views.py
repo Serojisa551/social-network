@@ -33,7 +33,7 @@ def registration(request):
     serializer = RegisterSerializer(data=request.data)
     if serializer.is_valid():
         user = serializer.save()
-        messages.success(request, f"New account created: {user.username}")
+        messages.success(request, f"New account created: {user[0].username}")
         return Response({"message": "User successfully registered"})
     return Response(serializer.errors, status=400)
 
