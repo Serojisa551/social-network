@@ -4,6 +4,17 @@ from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
+import secrets
+import string
+
+# This shouldn't work with Swagger It's token generation that is called during registration
+def generateToken():
+    characters = string.ascii_letters + string.digits
+    token = ''.join(secrets.choice(characters) for _ in range(16))
+    return token
+
+
+
 class AuthorisationSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField()
@@ -56,17 +67,18 @@ class RegisterSerializer(serializers.Serializer):
         username = validated_data.get('username')
         email = validated_data.get('email')
         password = validated_data.get('password')
+        token = generateToken()
         
 
         if auth_type == "web":
             # profile_picture = validated_data.get('profile_picture')
             date_of_birth = validated_data.get('date_of_birth')
             place_of_birth  = validated_data.get('place_of_birth')
-            userInfo = UserInfo.objects.create_user(username=username, date_of_birth=date_of_birth, place_of_birth=place_of_birth)
+            userInfo = UserInfo.objects.create_user(username=username, date_of_birth=date_of_birth, place_of_birth=place_of_birth, token=token)
             user = User.objects.create_user(username=username, email=email, password=password)
-            return user, userInfo
         else:
             user = User.objects.create_user(username=username, email=email, password=password)
+            userInfo = UserInfo.objects.create_user(username=username, token=token)
 
-        return user
+        return user, userInfo
 
