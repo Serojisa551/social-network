@@ -32,7 +32,7 @@ INSTALLED_APPS = [
 
     "logAndReg.apps.LogandregConfig",
 
-    "commandPost.apps.CommandpostConfig",
+    "commentPost.apps.CommentpostConfig",
 
     "crispy_forms",
     "drf_yasg",

@@ -23,8 +23,8 @@ postsUsers/admin.py
 postsUsers/__pycache__/
 photosUsers/tests.py
 socialNetwork/static
-commandPost/admin.py
-commandPost/__pycache__
-commandPost/migrations
-commandPost/tests.py
+commantPost/admin.py
+commantPost/__pycache__
+commantPost/migrations
+commantPost/tests.py
 resetPassword/

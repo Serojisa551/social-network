@@ -5,12 +5,12 @@ from .serializers import *
 from rest_framework.response import Response
 from django.contrib import messages
 
-@swagger_auto_schema(method='post', request_body=CommandPostSerializer)
+@swagger_auto_schema(method='post', request_body=CommentPostSerializer)
 @api_view(['POST'])
-def createCommand(request):
-    serializer = CommandPostSerializer(data=request.data)
+def createComment(request):
+    serializer = CommentPostSerializer(data=request.data)
     if serializer.is_valid():
-        command = serializer.save()
-        messages.success(request, f"New account created: {command.context}")
+        comment = serializer.save()
+        messages.success(request, f"New account created: {comment.context}")
         return Response({"message": "User successfully registered"})
     return Response(serializer.errors, status=400)

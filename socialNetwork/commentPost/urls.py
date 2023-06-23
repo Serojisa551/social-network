@@ -4,5 +4,5 @@ from . import views
 
 
 urlpatterns = [  
-    path("command", views.createCommand, name="home"),
+    path("comment", views.createComment),
 ]

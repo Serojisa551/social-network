@@ -40,6 +40,6 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path("", include('chat.urls')),
     path("", include("postsUsers.urls")),
-    path("", include('commandPost.urls')),
+    path("", include('commentPost.urls')),
 ]
 
