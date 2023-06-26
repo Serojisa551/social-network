@@ -11,6 +11,6 @@ def createComment(request):
     serializer = CommentPostSerializer(data=request.data)
     if serializer.is_valid():
         comment = serializer.save()
-        messages.success(request, f"New account created: {comment.context}")
-        return Response({"message": "User successfully registered"})
+        messages.success(request, f"New comment for posts created: {comment.context}")
+        return Response({"message": "New comment for posts created"})
     return Response(serializer.errors, status=400)

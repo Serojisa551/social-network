@@ -28,8 +28,6 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
 
-    "resetPassword.apps.ResetpasswordConfig",
-
     "logAndReg.apps.LogandregConfig",
 
     "commentPost.apps.CommentpostConfig",
