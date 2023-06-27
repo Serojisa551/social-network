@@ -13,11 +13,11 @@ logAndReg/__pycache__
 logAndReg/tests.py
 logAndReg/migrations
 chat/tests.py
-chat/__pycache__
+chat/__pycache__/
 chat/migrations
 postsUsers/migrations/
 postsUsers/__pycache__/
 photosUsers/tests.py
-commantPost/__pycache__
-commantPost/migratio:ns
+commentPost/__pycache__/
+commantPost/migrations
 commantPost/tests.py
