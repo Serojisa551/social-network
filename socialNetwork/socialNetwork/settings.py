@@ -27,20 +27,24 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.sites",
+
+    # These are apps
+    "friends.apps.FriendsConfig",
 
     "logAndReg.apps.LogandregConfig",
 
     "commentPost.apps.CommentpostConfig",
 
-    "crispy_forms",
-    "drf_yasg",
-
     "postsUsers.apps.PostsusersConfig",
 
     "chat.apps.ChatConfig",
 
-    "django.contrib.sites",
+    # Тhese are for the swagge
+    "crispy_forms",
+    "drf_yasg",
 
+    # Тhese are for the google account
     "allauth",
     "allauth.account",
     "allauth.socialaccount",

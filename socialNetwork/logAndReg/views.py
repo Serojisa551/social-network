@@ -7,9 +7,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import PasswordResetForm
 from django.http import HttpResponse
 from django.core.mail import send_mail, BadHeaderError
+from rest_framework_simplejwt.tokens import RefreshToken
 from django.shortcuts import render, redirect
 from .forms import NewUserForm
-from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from email.mime.text import MIMEText
@@ -23,7 +23,7 @@ from rest_framework.decorators import api_view
 from .serializers import * 
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework_simplejwt.tokens import RefreshToken
+from django.contrib import messages
 
 
 # Working only with Swagger

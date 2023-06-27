@@ -41,5 +41,7 @@ urlpatterns = [
     path("", include('chat.urls')),
     path("", include("postsUsers.urls")),
     path("", include('commentPost.urls')),
+    path("", include('friends.urls')),
+
 ]
 
