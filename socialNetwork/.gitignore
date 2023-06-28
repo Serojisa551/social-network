@@ -19,5 +19,8 @@ postsUsers/migrations/
 postsUsers/__pycache__/
 photosUsers/tests.py
 commentPost/__pycache__/
-commantPost/migrations
-commantPost/tests.py
+commentPost/migrations/
+commentPost/tests.py
+friends/__pycache__/
+friends/migrations
+friends/tests.py
