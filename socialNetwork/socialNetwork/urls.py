@@ -42,6 +42,7 @@ urlpatterns = [
     path("", include("postsUsers.urls")),
     path("", include('commentPost.urls')),
     path("", include('friends.urls')),
+    path("posts/", include("postsSort.urls")),
 
 ]
 
