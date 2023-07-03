@@ -9,7 +9,7 @@ class UserAdmin(admin.ModelAdmin):
 
 class PostAdmin(admin.ModelAdmin):
 
-    list_display = ["user","id", "description", "location", "url"]
+    list_display = ["user","id", "description", "location", "url", "created_at"]
 
 
 admin.site.unregister(User)  
