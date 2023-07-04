@@ -20,3 +20,10 @@ def sortPostsByTime(request):
     posts = Post.objects.all().order_by('-created_at')
     serializer = PostSerializer(posts, many=True)
     return Response(serializer.data)
+
+
+@api_view(['GET'])
+def sortByPostsPopularity(request):
+    posts = Post.objects.all().order_by('-good')
+    serializer = PostSerializer(posts, many=True)
+    return Response(serializer.data)
