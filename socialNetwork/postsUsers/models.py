@@ -10,11 +10,29 @@ class Post(models.Model):
     url = models.URLField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
+    good = models.IntegerField(default = 0)
+    norm = models.IntegerField(default = 0)
+    bad = models.IntegerField(default = 0)
 
     class Meta:
         db_table = 'post' 
 
-    def __str__(self):
-        return f"Post by {self.user.username}, {self.description}, {self.location}, {self.url}"
+    def getGood(self):
+        good = self.good
+        good += 1
+        self.good = good
+        self.save()
+
+    def getNorm(self):
+        norm = self.norm
+        norm += 1
+        self.norm = norm
+        self.save()
+        
+    def getBad(self):
+        bad = self.bad
+        bad += 1
+        self.bad = bad
+        self.save()
+
 
