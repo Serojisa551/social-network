@@ -10,29 +10,34 @@ class Post(models.Model):
     url = models.URLField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    good = models.IntegerField(default = 0)
-    norm = models.IntegerField(default = 0)
-    bad = models.IntegerField(default = 0)
+    good = models.IntegerField(default=0)
+    norm = models.IntegerField(default=0)
+    bad = models.IntegerField(default=0)
+    reaction_user = models. OneToOneField(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='reactions')
 
     class Meta:
-        db_table = 'post' 
+        db_table = 'post'
 
     def getGood(self):
-        good = self.good
-        good += 1
-        self.good = good
-        self.save()
-
-    def getNorm(self):
-        norm = self.norm
-        norm += 1
-        self.norm = norm
-        self.save()
+        if self.reaction_user is None:
+            self.good += 1
+            self.reaction_user = self.user
+            self.save()
+        else:
+            raise ValueError("You have already placed a reaction on this post.")        
         
+    def getNorm(self):
+        if self.reaction_user is None:
+            self.norm += 1
+            self.reaction_user = self.user
+            self.save()
+        else:
+            raise ValueError("You have already placed a reaction on this post.")
+
     def getBad(self):
-        bad = self.bad
-        bad += 1
-        self.bad = bad
-        self.save()
-
-
+        if self.reaction_user is None:
+            self.bad += 1
+            self.reaction_user = self.user
+            self.save()
+        else:
+            raise ValueError("You have already placed a reaction on this post.")            
