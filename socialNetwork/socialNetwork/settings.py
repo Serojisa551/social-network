@@ -18,9 +18,10 @@ DEBUG = True
 ALLOWED_HOSTS = ["*"]
 
 
-# Application definition
+
 
 INSTALLED_APPS = [
+    # Application definition
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -29,7 +30,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.sites",
 
-    # These are apps
+    # These are apps    
     "friends.apps.FriendsConfig",
 
     "logAndReg.apps.LogandregConfig",
@@ -39,6 +40,8 @@ INSTALLED_APPS = [
     "postsUsers.apps.PostsusersConfig",
 
     "chat.apps.ChatConfig",
+
+    "postsSort.apps.PostssortConfig",
 
     # Тhese are for the swagge
     "crispy_forms",

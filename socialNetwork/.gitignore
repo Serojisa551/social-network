@@ -24,3 +24,6 @@ commentPost/tests.py
 friends/__pycache__/
 friends/migrations
 friends/tests.py
+postsSort/__pycache__/
+postsSort/migrations
+postsSort/tests.py
